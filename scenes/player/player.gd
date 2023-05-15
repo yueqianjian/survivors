@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-const SPEED = 300
+const MAX_SPEED = 125
+const ACCELERATION_SMOOTHING = 25
 
 func _ready():
 	pass # Replace with function body.
@@ -10,7 +11,8 @@ func _ready():
 func _process(delta):
 	var movement_vector = get_movement_vector()
 	var direction = movement_vector.normalized()
-	velocity = direction * SPEED
+	var target_velocity = direction * MAX_SPEED
+	velocity = velocity.lerp(target_velocity, 1 - exp(-delta * ACCELERATION_SMOOTHING))
 	move_and_slide()
 
 
