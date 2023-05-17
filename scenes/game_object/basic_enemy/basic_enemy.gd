@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@onready var health_copment: HealthComponent = $HealthComponent
+
 const MAX_SPEED = 40
 
 func _process(delta):
@@ -16,4 +18,4 @@ func get_direction_to_player():
 
 
 func _on_area_2d_area_entered(area):
-	queue_free()
+	health_copment.damage(100)
