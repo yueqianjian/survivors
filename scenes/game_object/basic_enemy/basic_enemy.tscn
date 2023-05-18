@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://3x1mpk1bx162"]
+[gd_scene load_steps=9 format=3 uid="uid://3x1mpk1bx162"]
 
 [ext_resource type="Texture2D" uid="uid://52hc07lpghu3" path="res://scenes/game_object/basic_enemy/basic_enemy.png" id="1_8ds36"]
 [ext_resource type="Script" path="res://scenes/game_object/basic_enemy/basic_enemy.gd" id="1_hjqwa"]
 [ext_resource type="PackedScene" uid="uid://dosq5swicn2hq" path="res://scenes/components/health_component.tscn" id="2_k84v0"]
 [ext_resource type="PackedScene" uid="uid://dcou8fwl75qeq" path="res://scenes/components/vial_drop_component.tscn" id="3_7283y"]
 [ext_resource type="PackedScene" uid="uid://dx55ativj2coi" path="res://scenes/game_object/experience_vial/experience_vial.tscn" id="4_hj3go"]
+[ext_resource type="PackedScene" uid="uid://bhc51tbmm75vg" path="res://scenes/components/hurt_box_component.tscn" id="5_fpl67"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_fk788"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_6emgf"]
 radius = 12.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l84wg"]
@@ -25,13 +26,12 @@ metadata/_edit_group_ = true
 vial_scene = ExtResource("4_hj3go")
 health_component = NodePath("../HealthComponent")
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
+[node name="HurtBoxComponent" parent="." node_paths=PackedStringArray("health_copment") instance=ExtResource("5_fpl67")]
+health_copment = NodePath("../HealthComponent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBoxComponent"]
 position = Vector2(0, -4)
-shape = SubResource("CircleShape2D_fk788")
+shape = SubResource("CircleShape2D_6emgf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -4)
@@ -40,5 +40,3 @@ texture = ExtResource("1_8ds36")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_l84wg")
-
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
