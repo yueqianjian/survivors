@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bkfc7w8voevb8"]
+[gd_scene load_steps=13 format=3 uid="uid://bkfc7w8voevb8"]
 
 [ext_resource type="PackedScene" path="res://scenes/game_object/game_camera/game_camera.tscn" id="1_4caxq"]
 [ext_resource type="PackedScene" uid="uid://bs0crt1hspxhp" path="res://scenes/UI/arena_time_ui.tscn" id="1_wuwad"]
@@ -7,7 +7,9 @@
 [ext_resource type="PackedScene" path="res://scenes/manager/enemy_manager.tscn" id="4_aoesu"]
 [ext_resource type="PackedScene" uid="uid://c67vw0ey625wj" path="res://scenes/manager/experience_manager.tscn" id="4_n03i3"]
 [ext_resource type="Texture2D" uid="uid://beil7ruqv3gta" path="res://assets/environment/tilemap_packed.png" id="5_ss15h"]
+[ext_resource type="PackedScene" uid="uid://bh5kxvhjjdxed" path="res://scenes/manager/upgrade_manager.tscn" id="6_i8c2y"]
 [ext_resource type="PackedScene" uid="uid://c2w0t7fojh286" path="res://scenes/game_object/player/player.tscn" id="6_j760q"]
+[ext_resource type="Resource" uid="uid://btho6ewuwb4bn" path="res://resources/upgrade/sword_rate.tres" id="7_xn77l"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4duby"]
 texture = ExtResource("5_ss15h")
@@ -66,6 +68,10 @@ experience_manager = NodePath("../ExperienceManager")
 [node name="EnemyManager" parent="." instance=ExtResource("4_aoesu")]
 
 [node name="ExperienceManager" parent="." instance=ExtResource("4_n03i3")]
+
+[node name="UpgradeManager" parent="." node_paths=PackedStringArray("experience_manager") instance=ExtResource("6_i8c2y")]
+experience_manager = NodePath("../ExperienceManager")
+ability_pool = Array[Resource("res://resources/upgrade/ability_upgrade.gd")]([ExtResource("7_xn77l")])
 
 [node name="GameCamera" parent="." instance=ExtResource("1_4caxq")]
 
