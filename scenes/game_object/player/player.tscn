@@ -1,27 +1,36 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2w0t7fojh286"]
+[gd_scene load_steps=10 format=3 uid="uid://c2w0t7fojh286"]
 
 [ext_resource type="Script" path="res://scenes/game_object/player/player.gd" id="1_vnw21"]
 [ext_resource type="PackedScene" uid="uid://wr480rb11xfo" path="res://scenes/ability/sword_ability_controller/sword_ability_controller.tscn" id="2_q5or5"]
+[ext_resource type="PackedScene" uid="uid://dosq5swicn2hq" path="res://scenes/components/health_component.tscn" id="2_tp303"]
 [ext_resource type="Texture2D" uid="uid://crcjqjnr41pk" path="res://scenes/game_object/player/player.png" id="2_yxqbs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ron3e"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s5ogn"]
+radius = 5.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tvvki"]
 radius = 32.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_s5ogn"]
-radius = 5.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wt3th"]
+bg_color = Color(0.247059, 0.14902, 0.192157, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dl0sj"]
+bg_color = Color(0.262745, 0.882353, 0.701961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.247059, 0.14902, 0.192157, 1)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 0
 motion_mode = 1
 script = ExtResource("1_vnw21")
 
-[node name="Pickup" type="Area2D" parent="."]
-collision_layer = 16
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickup"]
-position = Vector2(0, -6)
-shape = SubResource("CircleShape2D_tvvki")
+[node name="HealthComponent" parent="." instance=ExtResource("2_tp303")]
 
 [node name="AbilityManager" type="Node" parent="."]
 
@@ -31,6 +40,43 @@ shape = SubResource("CircleShape2D_tvvki")
 position = Vector2(0, -8)
 texture = ExtResource("2_yxqbs")
 
+[node name="HurtBoxArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxArea"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_ron3e")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_s5ogn")
+
+[node name="PickupArea" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_tvvki")
+
+[node name="DamageIntervalTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(32, 6)
+offset_left = -16.0
+offset_top = -24.0
+offset_right = 16.0
+offset_bottom = -18.0
+pivot_offset = Vector2(16, 3)
+theme_override_styles/background = SubResource("StyleBoxFlat_wt3th")
+theme_override_styles/fill = SubResource("StyleBoxFlat_dl0sj")
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[connection signal="body_entered" from="HurtBoxArea" to="." method="_on_hurt_box_area_body_entered"]
+[connection signal="body_exited" from="HurtBoxArea" to="." method="_on_hurt_box_area_body_exited"]
+[connection signal="timeout" from="DamageIntervalTimer" to="." method="_on_damage_interval_timer_timeout"]
