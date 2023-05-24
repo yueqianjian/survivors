@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2w0t7fojh286"]
+[gd_scene load_steps=11 format=3 uid="uid://c2w0t7fojh286"]
 
 [ext_resource type="Script" path="res://scenes/game_object/player/player.gd" id="1_vnw21"]
 [ext_resource type="PackedScene" uid="uid://wr480rb11xfo" path="res://scenes/ability/sword_ability_controller/sword_ability_controller.tscn" id="2_q5or5"]
 [ext_resource type="PackedScene" uid="uid://dosq5swicn2hq" path="res://scenes/components/health_component.tscn" id="2_tp303"]
 [ext_resource type="Texture2D" uid="uid://crcjqjnr41pk" path="res://scenes/game_object/player/player.png" id="2_yxqbs"]
+[ext_resource type="PackedScene" uid="uid://ff1obd5p4b7l" path="res://scenes/ability/axe_ability_controller/axe_ability_controller.tscn" id="4_w6qrf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ron3e"]
 radius = 8.0
@@ -35,6 +36,8 @@ script = ExtResource("1_vnw21")
 [node name="AbilityManager" type="Node" parent="."]
 
 [node name="SwordAbilityController" parent="AbilityManager" instance=ExtResource("2_q5or5")]
+
+[node name="AxeAbilityController" parent="AbilityManager" instance=ExtResource("4_w6qrf")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -8)
