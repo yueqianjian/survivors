@@ -6,6 +6,7 @@ const ACCELERATION_SMOOTHING = 25
 @onready var damage_interval_timer: Timer = $DamageIntervalTimer
 @onready var health_bar = $HealthBar
 @onready var health_component = $HealthComponent
+@onready var abilities = $Abilities
 
 var number_colliding_bodies = 0
 
@@ -13,6 +14,7 @@ var number_colliding_bodies = 0
 func _ready():
 	health_component.health_changed.connect(on_health_changed)
 	update_health_display()
+	GameEvents.ability_upgrade_added.connect(on_ability_upgrade_added)
 
 
 func _process(delta):
@@ -57,3 +59,11 @@ func _on_damage_interval_timer_timeout():
 
 func on_health_changed():
 	update_health_display()
+
+
+func on_ability_upgrade_added(upgrade: AbilityUpgrade, current_upgrades: Dictionary):
+	if not upgrade is Ability:
+		return
+	var ability = upgrade as Ability
+	var ability_instance = (ability.ability_contorller_sence as PackedScene).instantiate()
+	abilities.add_child(ability_instance)
